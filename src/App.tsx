@@ -157,7 +157,7 @@ function App() {
 
   return (
     <div className="stage">
-      <h1 className="title">おバカ電卓</h1>
+      <h1 className="title">なにかがおかしい電卓</h1>
       <div
         className={`calculator ${phase === 'calculating' ? 'calculating' : ''}`}
       >
