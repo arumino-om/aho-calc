@@ -1,0 +1,45 @@
+:root {
+  --mono: ui-monospace, 'SF Mono', 'Fira Code', Consolas, monospace;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100svh;
+}
+
+body {
+  font-family: var(--sans);
+  color: #f2f2ff;
+  overflow-x: hidden;
+  /* にぎやかに動く背景 */
+  background:
+    radial-gradient(circle at 20% 20%, #2a0d4a, transparent 40%),
+    radial-gradient(circle at 80% 30%, #0d2a4a, transparent 40%),
+    radial-gradient(circle at 50% 80%, #4a0d2a, transparent 45%),
+    linear-gradient(135deg, #0b0b16, #171734);
+  background-size: 200% 200%;
+  animation: bgshift 12s ease-in-out infinite;
+}
+
+@keyframes bgshift {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+}

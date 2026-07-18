@@ -1,0 +1,212 @@
+.stage {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(32px, 7vw, 64px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ff6bd6, #ffd166, #6be0ff, #ff6bd6);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleflow 6s linear infinite;
+  text-align: center;
+  filter: drop-shadow(0 4px 12px rgba(255, 107, 214, 0.4));
+}
+
+@keyframes titleflow {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+.calculator {
+  width: min(440px, 100%);
+  padding: 22px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, #23233f, #14142a);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ブルブル震えるやつ */
+.calculator.calculating {
+  animation: shake 0.09s linear infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  20% {
+    transform: translate(-6px, 4px) rotate(-1.2deg);
+  }
+  40% {
+    transform: translate(7px, -5px) rotate(1deg);
+  }
+  60% {
+    transform: translate(-5px, -4px) rotate(-0.8deg);
+  }
+  80% {
+    transform: translate(6px, 5px) rotate(1.1deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+/* ---- インジケータ（表示部）---- */
+.indicator {
+  min-height: 110px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: #0a1f12;
+  border: 2px solid rgba(74, 255, 145, 0.25);
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.indicator-text {
+  font-family: var(--mono);
+  font-size: clamp(34px, 11vw, 60px);
+  font-weight: 700;
+  color: #4aff91;
+  text-shadow:
+    0 0 8px rgba(74, 255, 145, 0.8),
+    0 0 22px rgba(74, 255, 145, 0.5);
+  word-break: break-all;
+  text-align: right;
+  line-height: 1.1;
+  /* 一桁ずつ現れるときに新しい文字がポップする（key で再マウント） */
+  animation: pop 0.22s ease-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1.4);
+    opacity: 0.3;
+    filter: brightness(2.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* 計算中はチカチカ発光 */
+.indicator.phase-calculating {
+  animation: flash 0.18s steps(1) infinite;
+}
+
+@keyframes flash {
+  0% {
+    border-color: rgba(255, 80, 80, 0.9);
+    box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    border-color: rgba(255, 220, 0, 0.9);
+    box-shadow: inset 0 0 30px rgba(255, 200, 0, 0.5);
+  }
+  100% {
+    border-color: rgba(0, 200, 255, 0.9);
+    box-shadow: inset 0 0 30px rgba(0, 150, 255, 0.5);
+  }
+}
+
+.indicator.phase-calculating .indicator-text {
+  color: #ffdd55;
+  animation: none;
+}
+
+/* ---- ボタン ---- */
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.key {
+  height: 72px;
+  border: none;
+  border-radius: 18px;
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 700;
+  color: #f2f2ff;
+  cursor: pointer;
+  background: linear-gradient(160deg, #3a3a5c, #2a2a44);
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease,
+    filter 0.12s ease;
+  user-select: none;
+}
+
+.key:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.key:active:not(:disabled) {
+  transform: translateY(5px) scale(0.96);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  filter: brightness(1.4);
+}
+
+.key:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.key-op {
+  background: linear-gradient(160deg, #ff8a3d, #e0631a);
+  box-shadow:
+    0 6px 0 rgba(120, 40, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.key-op.active {
+  filter: brightness(1.5);
+  box-shadow:
+    0 0 20px rgba(255, 160, 60, 0.9),
+    0 6px 0 rgba(120, 40, 0, 0.6);
+}
+
+.key-fn {
+  background: linear-gradient(160deg, #6a6a8c, #4a4a66);
+}
+
+.key-eq {
+  background: linear-gradient(160deg, #ff6bd6, #c02aa0);
+  box-shadow:
+    0 6px 0 rgba(120, 0, 90, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.key-zero {
+  grid-column: span 2;
+}
+
+.hint {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  text-align: center;
+}
